@@ -7,7 +7,8 @@ import numpy as np
 import sklearn
 from sklearn.base import is_classifier, clone
 from sklearn.metrics.scorer import check_scoring
-from sklearn.utils.validation import check_arrays
+#from sklearn.utils.validation import check_arrays
+from msmbuilder.utils import check_arrays
 from sklearn.externals.joblib import Parallel, delayed
 from sklearn.cross_validation import _check_cv as check_cv, _safe_split, _score
 
