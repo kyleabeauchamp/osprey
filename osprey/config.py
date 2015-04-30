@@ -36,7 +36,7 @@ from .search_space import SearchSpace
 from .strategies import BaseStrategy
 from .dataset_loaders import BaseDatasetLoader
 from .cross_validators import BaseCVFactory
-from .trials import make_session
+from .trials import make_session, Trial
 from .subclass_factory import init_subclass_by_name
 from . import eval_scopes
 
@@ -314,6 +314,20 @@ class Config(object):
         """SHA1 hash of the config file itself."""
         with open(self.path, 'rb') as f:
             return hashlib.sha1(f.read()).hexdigest()
+
+    def to_dataframe(self):
+        """Return pandas dataframe representation of the current database."""
+        import pandas as pd
+        session = self.trials()
+        items = [cursor.to_dict() for cursor in session.query(Trial).all()]
+        df = pd.DataFrame(items).set_index('id')
+
+        for key in df.iloc[0].parameters.keys():
+            df[key] = df.parameters.map(lambda x: x[key])
+        
+        return df
+
+        
 
 
 def parse(f):
