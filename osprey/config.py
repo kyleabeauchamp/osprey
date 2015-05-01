@@ -324,10 +324,8 @@ class Config(object):
 
         for key in df.iloc[0].parameters.keys():
             df[key] = df.parameters.map(lambda x: x[key])
-        
-        return df
 
-        
+        return df
 
 
 def parse(f):
